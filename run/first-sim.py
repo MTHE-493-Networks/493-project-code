@@ -1,4 +1,4 @@
-from utilities.utilities import time_steps, number_of_nodes
+from utilities.utilities import time_steps, number_of_nodes, draw_graph
 from model.model import network
 import matplotlib.pyplot as plt
 
@@ -11,6 +11,7 @@ for i in G_super.nodes:
 
 for j in range(time_steps):
   G_super.supernode_run_step()
+  draw_graph(G_super, j)
   for i in G_super.nodes:
     red_prop_data[j].append(i.red_proportion())
 

@@ -3,6 +3,7 @@ from numpy import empty
 from utilities.utilities import generate_barabassi_graph, red_balls_per_node, black_balls_per_node, delta_r, delta_b
 from model.node import polya_node
 from typing import List
+import networkx as nx
 
 class network:
     nodes: List[polya_node]
@@ -19,13 +20,17 @@ class network:
 
     # Function to generate network
     def generate_network(self):
+        mapping = {}
         for i, ind in enumerate(self.network_plot):    # Generate nodes
             new_node = polya_node(red_balls_per_node, black_balls_per_node, ind)
+            mapping[i] = new_node
             self.nodes[ind] = new_node
 
         for i, node in enumerate(self.nodes):   # Add neighbours to nodes
             neighbour_indexes = [ind for ind in self.network_plot.neighbors(i)]
             self.nodes[i].add_neighbours([self.nodes[ind] for ind in neighbour_indexes])
+
+        self.network_plot = nx.relabel_nodes(self.network_plot, mapping)
 
     #draws a ball from every superurn in the network
     def supernode_run_step(self):
