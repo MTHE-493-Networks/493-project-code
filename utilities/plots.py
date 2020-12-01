@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib as mpl
 from matplotlib import pyplot as plt
 from pylab import rcParams
-from utilities import time_steps
+from utilities.utilities import time_steps
 
 
 def draw_graph(G, step):
@@ -43,5 +43,5 @@ def plot_ave_infection_rate(superred_prop_data):
         time.append(j)
     plt.plot(time, average_red_prop)
     plt.xlabel('Step')
-    plt.ylabel('Average Infection Rate over time')
+    plt.ylabel('Average infection rate')
     plt.show()
