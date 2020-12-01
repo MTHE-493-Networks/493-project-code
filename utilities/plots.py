@@ -21,6 +21,7 @@ def draw_graph(G, step):
             )
 
     plt.savefig("graphs/network-images/Graph" + str(step) + ".png", format="PNG")
+    plt.savefig('graphs/network-images/Graph' + str(step) + '.png', format='PNG')
     plt.clf()
 
 def plot_ave_red_proportion(red_prop_data):
@@ -32,8 +33,9 @@ def plot_ave_red_proportion(red_prop_data):
      
     plt.plot(time, average_red_prop)
     plt.xlabel('Step')
-    plt.ylabel('Average proportion of red balls over all urns ')
-    plt.show()
+    plt.ylabel('Average proportion of red balls in each urn')
+    plt.savefig("graphs/Average proportion of red balls over time.png", format="PNG")
+    plt.clf()
     
 def plot_ave_infection_rate(superred_prop_data):
     time = []
@@ -44,4 +46,5 @@ def plot_ave_infection_rate(superred_prop_data):
     plt.plot(time, average_red_prop)
     plt.xlabel('Step')
     plt.ylabel('Average infection rate')
-    plt.show()
+    plt.savefig("graphs/Average infection rate over time.png", format="PNG")
+    plt.clf()

@@ -14,7 +14,7 @@ for i in G_super.nodes:
 # run model
 for j in range(time_steps):
   G_super.supernode_run_step()
-  #draw_graph(G_super, j)
+  draw_graph(G_super, j)
   for i in G_super.nodes:      # record this step of data
     red_prop_data[j+1].append(i.red_proportion())
     super_red_prop_data[j+1].append(i.super_red_proportion())
