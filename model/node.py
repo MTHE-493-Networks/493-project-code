@@ -16,6 +16,14 @@ class polya_node:
 
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
+    
+    def super_red_proportion(self):
+        num_super_red = 0  # number of red balls in superurn
+        num_super_total = 0  # number of balls in superurn
+        for i in self.neighbours:
+            num_super_red += i.total_red
+            num_super_total += i.total_red + i.total_black
+        return num_super_red / num_super_total
 
     def draw_ball(node):
         red_percent = node.red_proportion()
