@@ -8,10 +8,12 @@ G_super = network(number_of_nodes)
 
 for i in G_super.nodes:
     red_prop_data[0].append(i.red_proportion())
+    print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
 
 for j in range(time_steps):
   G_super.supernode_run_step()
-  draw_graph(G_super, j)
+  if j % 10 == 0:
+      draw_graph(G_super, j)
   for i in G_super.nodes:
     red_prop_data[j].append(i.red_proportion())
 

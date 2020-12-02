@@ -1,6 +1,6 @@
 import random
 from numpy import empty
-from utilities.utilities import generate_barabassi_graph, red_balls_per_node, black_balls_per_node, delta_r, delta_b
+from utilities.utilities import generate_barabassi_graph, init_black_balls, init_red_balls, delta_r, delta_b
 from model.node import polya_node
 from typing import List
 import networkx as nx
@@ -18,11 +18,13 @@ class network:
 
         self.generate_network()     # Generate network
 
+
+
     # Function to generate network
     def generate_network(self):
         mapping = {}
         for i, ind in enumerate(self.network_plot):    # Generate nodes
-            new_node = polya_node(red_balls_per_node, black_balls_per_node, ind)
+            new_node = polya_node(init_red_balls, init_black_balls, ind)
             mapping[i] = new_node
             self.nodes[ind] = new_node
 
@@ -53,6 +55,6 @@ class network:
         # end of drawing, time to add balls
         for node in self.nodes:
             if node in black_to_add:
-                node.total_black += delta_b
+                node.total_black += delta_b(node)
             if node in red_to_add:
-                node.total_red += delta_r
+                node.total_red += delta_r(node)
