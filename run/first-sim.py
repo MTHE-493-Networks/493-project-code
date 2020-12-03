@@ -14,11 +14,10 @@ for i in G_super.nodes:
     print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
 
 for j in range(time_steps):
-    print(str(delta_r(G_super.nodes[0])))
     # print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.delta_b()) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
-    G_super.supernode_run_step()
     if j % 10 == 0:
         draw_graph(G_super, j)
+    G_super.supernode_run_step()
     for i in G_super.nodes:
         red_prop_data[j+1].append(i.red_proportion())
         super_red_prop_data[j+1].append(i.super_red_proportion())

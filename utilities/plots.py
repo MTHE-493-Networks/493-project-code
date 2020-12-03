@@ -24,7 +24,6 @@ def draw_graph(G, step):
     weights = color_lookup.values()
     sizes = [50 if weight <= .6 else 100 for weight in weights]
     node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
-    print(weights)
     if all(node_colors):
         node_colors = 'r'
     # min_val, max_val = min(weights), max(weights)

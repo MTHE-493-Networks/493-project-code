@@ -32,7 +32,7 @@ class network:
     def generate_network(self):
         mapping = {}
         for i, ind in enumerate(self.network_plot):    # Generate nodes
-            if random.random() <= 0.5:
+            if random.random() <= 1:
                 new_node = polya_node(init_red_balls, init_black_balls, ind)
             else:
                 new_node = polya_node(init_black_balls, init_red_balls, ind)
@@ -60,19 +60,21 @@ class network:
             self.draw_data[node.id][memory-j-1] = self.draw_data[node.id][memory-j-2]
         
         if Z == 0:   # black ball selected
-            self.draw_data[node.id][0] = delta_r(node)
-        if Z == 1: 
             self.draw_data[node.id][0] = delta_b(node)
+        if Z == 1: 
+            self.draw_data[node.id][0] = delta_r(node)
         
     def recompute_urns(self):
         for node in self.nodes:
-            node.total_red = node.init_red
-            node.total_black = node.init_black
+            total_red = node.init_red
+            total_black = node.init_black
             for n in range(memory):
                 if self.Z[node.id][n] == 0:
-                    node.total_black += self.draw_data[node.id][n]
+                    total_black += self.draw_data[node.id][n]
                 elif self.Z[node.id][n] == 1:
-                    node.total_red += self.draw_data[node.id][n]
+                    total_red += self.draw_data[node.id][n]
+            node.total_red = total_red
+            node.total_black = total_black
         
     #draws a ball from every superurn in the network
     def supernode_run_step(self):
