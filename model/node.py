@@ -1,4 +1,7 @@
 import random
+from numpy import min, max
+from math import floor
+from utilities import init_split, spread_rate
 
 # define the class that describes each urn
 class polya_node:
@@ -17,11 +20,25 @@ class polya_node:
         
         self.id = _id
         
-    def set_delta_r(self):
-        return 1
-        
     def set_delta_b(self):
-        return 1
+        total_black = self.total_black
+        for i in self.neighbours:
+            total_black += i.total_black
+        db = floor((total_black/init_split) / (len(self.neighbours)+1))
+        if db == 0:
+            db = 1
+        self.delta_b = db
+        
+    def set_delta_r(self):
+        total_red = self.total_red
+        for i in self.neighbours:
+            total_red += i.total_red
+    
+        dr = floor(((total_red + spread_rate)/init_split) / (len(self.neighbours)+1))
+    
+        if dr == 0:
+            dr = 1
+        self.delta_r = dr
     
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
