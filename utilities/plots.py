@@ -20,7 +20,6 @@ def draw_graph(G, step):
             node_color=[mapper.to_rgba(i) for i in color_lookup.values()]
             )
 
-    plt.savefig("graphs/network-images/Graph" + str(step) + ".png", format="PNG")
     plt.savefig('graphs/network-images/Graph' + str(step) + '.png', format='PNG')
     plt.clf()
 

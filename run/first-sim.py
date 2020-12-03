@@ -4,8 +4,8 @@ from model.model import network
 
 red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each urn over time
 super_red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each superurn over time
-
 G_super = network(number_of_nodes)
+
 # record initial data
 for i in G_super.nodes:
     red_prop_data[0].append(i.red_proportion()) #n=0 initial red proportions
@@ -13,13 +13,15 @@ for i in G_super.nodes:
     
 # run model
 for j in range(time_steps):
+  print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
   G_super.supernode_run_step()
-  draw_graph(G_super, j)
+  #draw_graph(G_super, j)
   for i in G_super.nodes:      # record this step of data
     red_prop_data[j+1].append(i.red_proportion())
     super_red_prop_data[j+1].append(i.super_red_proportion())
-    #print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+    # print("Urn " + str(i.id) + ". db: " + str(i.delta_b) + ", dr: " + str(i.delta_r) + "\n Red/black balls are " + str(i.total_red) +"/"+ str(i.total_black))
+
 
 # plot data
-plot_ave_red_proportion(red_prop_data)
-plot_ave_infection_rate(super_red_prop_data)
+#plot_ave_red_proportion(red_prop_data)
+#plot_ave_infection_rate(super_red_prop_data)

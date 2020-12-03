@@ -5,15 +5,24 @@ class polya_node:
     def __init__(self, red, black, _id):
         self.init_red = red
         self.init_black = black
-
+        
+        self.delta_r = self.set_delta_r()
+        self.delta_b = self.set_delta_b()
+        
         self.total_red = red
         self.total_black = black
-
+        
         self.neighbours = []  # list of neighbours
         self.degree = 0  # number of neighbours
-
+        
         self.id = _id
-
+        
+    def set_delta_r(self):
+        return 1
+        
+    def set_delta_b(self):
+        return 1
+    
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
     
@@ -34,7 +43,6 @@ class polya_node:
         else:
             node.total_red += 1
             drawn_ball = "red"
-
         return drawn_ball
 
     # Add neighbour to node
