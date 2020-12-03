@@ -8,19 +8,38 @@ G_super = network(number_of_nodes)
 
 # record initial data
 for i in G_super.nodes:
-    red_prop_data[0].append(i.red_proportion()) #n=0 initial red proportions
+    red_prop_data[0].append(i.red_proportion())
     super_red_prop_data[0].append(i.super_red_proportion())
-    
-# run model
+    print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+
 for j in range(time_steps):
   print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
   G_super.supernode_run_step()
-  #draw_graph(G_super, j)
-  for i in G_super.nodes:      # record this step of data
+  if j % 10 == 0:
+      draw_graph(G_super, j)
+  for i in G_super.nodes:
     red_prop_data[j+1].append(i.red_proportion())
     super_red_prop_data[j+1].append(i.super_red_proportion())
-    # print("Urn " + str(i.id) + ". db: " + str(i.delta_b) + ", dr: " + str(i.delta_r) + "\n Red/black balls are " + str(i.total_red) +"/"+ str(i.total_black))
 
+time = []
+for j in range(time_steps):
+  average_red_prop.append(sum(red_prop_data[j])/len(red_prop_data[j]))
+  time.append(j)
+
+for i in G_super.nodes:
+    print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+
+x = time
+# corresponding y axis values
+y = average_red_prop
+
+# plotting the points
+plt.plot(x, y)
+
+# naming the x axis
+plt.xlabel('Step')
+# naming the y axis
+plt.ylabel('Average Proportion of Red Balls Over All Urns')
 
 # plot data
 #plot_ave_red_proportion(red_prop_data)
