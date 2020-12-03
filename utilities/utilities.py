@@ -11,6 +11,7 @@ init_split = (init_red_balls + init_black_balls)/2
 spread_rate = 10
 time_steps = 200
 number_of_nodes = 20
+memory = 5
 
 
 # Generate new network
@@ -71,4 +72,3 @@ def delta_r(node):
         db = 1
 
     return db
-
