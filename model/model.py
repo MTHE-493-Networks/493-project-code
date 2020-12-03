@@ -32,7 +32,10 @@ class network:
     def generate_network(self):
         mapping = {}
         for i, ind in enumerate(self.network_plot):    # Generate nodes
-            new_node = polya_node(init_red_balls, init_black_balls, ind)
+            if random.random() <= 0.5:
+                new_node = polya_node(init_red_balls, init_black_balls, ind)
+            else:
+                new_node = polya_node(init_black_balls, init_red_balls, ind)
             mapping[i] = new_node
             self.nodes[ind] = new_node
 
@@ -42,10 +45,10 @@ class network:
 
         self.network_plot = nx.relabel_nodes(self.network_plot, mapping)
         
-    def update_deltas(self):
-        for node in self:
-            node.set_delta_r()
-            node.set_delta_b()
+    # def update_deltas(self):
+    #     for node in self.nodes:
+    #         node.set_delta_r()
+    #         node.set_delta_b()
             
     def add_draw_data(self, node, Z):
         # FIFO queue
@@ -87,4 +90,4 @@ class network:
                 self.add_draw_data(node, 1)
         # end of drawing, time to re-compute graph
         self.recompute_urns()
-        self.update_deltas()
+        # self.update_deltas()

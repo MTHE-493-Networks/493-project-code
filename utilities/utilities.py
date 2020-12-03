@@ -5,13 +5,13 @@ from numpy import min, max
 from math import floor
 
 # define constants
-init_red_balls = 57
-init_black_balls = 43
+init_red_balls = 2
+init_black_balls = 1
 init_split = (init_red_balls + init_black_balls)/2
 spread_rate = 10
 time_steps = 200
-number_of_nodes = 20
-memory = 5
+number_of_nodes = 100
+memory = 10
 
 
 # Generate new network
@@ -36,6 +36,7 @@ def draw_graph(G, step):
     weights = color_lookup.values()
     sizes = [50 if weight <= .6 else 100 for weight in weights]
     node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
+    print(weights)
     if all(node_colors):
         node_colors = 'r'
     # min_val, max_val = min(weights), max(weights)
@@ -53,7 +54,8 @@ def delta_b(node):
     for i in node.neighbours:
         total_black += i.total_black
 
-    db = floor((total_black/init_split) / (len(node.neighbours)+1))
+    # db = floor((total_black/init_split) / (len(node.neighbours)+1))
+    db = floor(total_black / (len(node.neighbours) + 1))
 
     if db == 0:
         db = 1
@@ -66,9 +68,10 @@ def delta_r(node):
     for i in node.neighbours:
         total_red += i.total_red
 
-    db = floor(((total_red + spread_rate)/init_split) / (len(node.neighbours)+1))
+    # dr = floor(((total_red + spread_rate)/init_split) / (len(node.neighbours)+1))
+    dr = floor(total_red/(len(node.neighbours)+1))
 
-    if db == 0:
-        db = 1
+    if dr == 0:
+        dr = 1
 
-    return db
+    return dr

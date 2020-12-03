@@ -1,27 +1,40 @@
 import networkx as nx
 import matplotlib as mpl
 from matplotlib import pyplot as plt
-from pylab import rcParams
 from utilities.utilities import time_steps
+from matplotlib.pyplot import figure, draw, show, savefig, cm, colorbar, Normalize, rcParams, clf
+from networkx import draw_networkx_nodes, draw_networkx_edges, kamada_kawai_layout
+
 
 
 def draw_graph(G, step):
-    color_lookup = {k: k.total_red for k in G.nodes}
+    G = G.network_plot
 
-    low, *_, high = sorted(color_lookup.values())
-    norm = mpl.colors.Normalize(vmin=low, vmax=high, clip=True)
-    mapper = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.coolwarm)
+    color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
 
-    rcParams['figure.figsize'] = 12, 7
+    fig = figure(figsize=(8, 6))
+    rcParams.update({'font.size': 16, 'mathtext.default': 'regular'})
+    ax = fig.gca()
+    ax.axis('off')  # Disable axis
 
-    nx.draw(G.network_plot,
-            nodelist=color_lookup,
-            node_size=1000,
-            node_color=[mapper.to_rgba(i) for i in color_lookup.values()]
-            )
+    graph = G
+    plot_layout = kamada_kawai_layout(graph)
+    cmap = cm.get_cmap('coolwarm')
 
-    plt.savefig('graphs/network-images/Graph' + str(step) + '.png', format='PNG')
-    plt.clf()
+    weights = color_lookup.values()
+    sizes = [50 if weight <= .6 else 100 for weight in weights]
+    node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
+    print(weights)
+    if all(node_colors):
+        node_colors = 'r'
+    # min_val, max_val = min(weights), max(weights)
+
+    draw_networkx_edges(graph, plot_layout, alpha=0.05)
+    draw_networkx_nodes(graph, plot_layout, node_size=sizes, linewidths=.5, edgecolors='k', node_color=node_colors,
+                        cmap=cmap)
+
+    savefig("graphs/network-images/Graph" + str(step) + ".png", format="PNG")
+    clf()
 
 def plot_ave_red_proportion(red_prop_data):
     time = []
