@@ -11,13 +11,14 @@ init_split = (init_red_balls + init_black_balls)/2
 spread_rate = 10
 time_steps = 200
 number_of_nodes = 100
-memory = 10
+memory = 5
 
 
 # Generate new network
 def generate_barabassi_graph(n):
     return nx.extended_barabasi_albert_graph(n, 2, 0, 0)
 
+'''
 def delta_b(node):
     total_black = node.total_black
     for i in node.neighbours:
@@ -31,7 +32,6 @@ def delta_b(node):
 
     return db
 
-
 def delta_r(node):
     total_red = node.total_red
     for i in node.neighbours:
@@ -44,3 +44,4 @@ def delta_r(node):
         dr = 1
 
     return dr
+'''

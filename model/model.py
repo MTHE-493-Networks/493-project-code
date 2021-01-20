@@ -1,6 +1,7 @@
 import random
 from numpy import empty
-from utilities.utilities import generate_barabassi_graph, init_black_balls, init_red_balls, delta_r, delta_b, memory
+from utilities.utilities import generate_barabassi_graph, init_black_balls, init_red_balls, memory
+# from utilities.utilities import delta_r, delta_b
 from model.node import polya_node
 from typing import List
 import networkx as nx
@@ -44,11 +45,12 @@ class network:
             self.nodes[i].add_neighbours([self.nodes[ind] for ind in neighbour_indexes])
 
         self.network_plot = nx.relabel_nodes(self.network_plot, mapping)
+        self.update_deltas()
         
-    # def update_deltas(self):
-    #     for node in self.nodes:
-    #         node.set_delta_r()
-    #         node.set_delta_b()
+    def update_deltas(self):
+        for node in self.nodes:
+            node.set_delta_r()
+            node.set_delta_b()
             
     def add_draw_data(self, node, Z):
         # FIFO queue
@@ -60,9 +62,9 @@ class network:
             self.draw_data[node.id][memory-j-1] = self.draw_data[node.id][memory-j-2]
         
         if Z == 0:   # black ball selected
-            self.draw_data[node.id][0] = delta_b(node)
+            self.draw_data[node.id][0] = node.delta_b
         if Z == 1: 
-            self.draw_data[node.id][0] = delta_r(node)
+            self.draw_data[node.id][0] = node.delta_r
         
     def recompute_urns(self):
         for node in self.nodes:
@@ -92,4 +94,4 @@ class network:
                 self.add_draw_data(node, 1)
         # end of drawing, time to re-compute graph
         self.recompute_urns()
-        # self.update_deltas()
+        self.update_deltas()
