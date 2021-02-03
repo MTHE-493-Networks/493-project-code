@@ -37,13 +37,13 @@ class network:
             # self.nodes = empty(n, dtype=polya_node)
             # curr = 0  # tracker of current node index
             
-            for i in range(0,11):  # pink beds 0-11
+            for i in range(0,12):  # pink beds 0-11
                 self.add_node("mid", i)
-            for i in range(12,19):  # yellow beds 12-19
+            for i in range(12,20):  # yellow beds 12-19
                 self.add_node("hi", i)
-            for i in range(20,71):  # blue beds 20-71
+            for i in range(20,72):  # blue beds 20-71
                 self.add_node("mid", i)
-            for i in range(72,99):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
+            for i in range(72,100):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
                 self.add_node("mid", i)
             self.network_plot.add_nodes_from(self.nodes)
             
