@@ -5,9 +5,32 @@ from utilities.utilities import init_split, spread_rate
 
 # define the class that describes each urn
 class polya_node:
-    def __init__(self, red, black, _id):
-        self.init_red = red
-        self.init_black = black
+    def __init__(self, profile, _id):    
+    # def __init__(self, red, black, _id):
+        
+        # define the type of individual
+        # self.profile = profile   # to be given as an input instead of red/black?
+        self.risk = profile
+        
+        if self.risk == "mid":
+            self.init_red = 2
+            self.init_black = 2
+            
+        elif self.risk == "hi":
+            self.init_red = 3
+            self.init_black = 1
+            
+        elif self.risk == "lo":
+            self.init_red = 1
+            self.init_black = 3
+            
+        # elif self.profile == "hi traffic worker":
+        #     self.init_red = 2
+        #     self.init_black = 2
+            
+        # elif self.profile == "lo traffic worker":
+        #     self.init_red = 1
+        #     self.init_black = 4
         
         self.total_red = self.init_red
         self.total_black = self.init_black
@@ -26,7 +49,7 @@ class polya_node:
         total_black = self.total_black
         for i in self.neighbours:
             total_black += i.total_black
-        db = floor((total_black/init_split) / (len(self.neighbours)+1))
+        db = floor(total_black/ len(self.neighbours))
         if db == 0:
             db = 1
         self.delta_b = db
@@ -35,9 +58,8 @@ class polya_node:
         total_red = self.total_red
         for i in self.neighbours:
             total_red += i.total_red
-    
-        dr = floor(((total_red + spread_rate)/init_split) / (len(self.neighbours)+1))
-    
+
+        dr = floor(total_red / (len(self.neighbours)))
         if dr == 0:
             dr = 1
         self.delta_r = dr

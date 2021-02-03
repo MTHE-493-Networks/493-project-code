@@ -18,6 +18,9 @@ memory = 5
 def generate_barabassi_graph(n):
     return nx.extended_barabasi_albert_graph(n, 2, 0, 0)
 
+  
+    
+
 '''
 def delta_b(node):
     total_black = node.total_black
