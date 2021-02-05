@@ -34,95 +34,8 @@ class network:
             
         elif version == "b":
             n = 100              # Number of nodes
-            # self.nodes = empty(n, dtype=polya_node)
-            # curr = 0  # tracker of current node index
-            
-            for i in range(0,12):  # pink beds 0-11
-                self.add_node("mid", i)
-            for i in range(12,20):  # yellow beds 12-19
-                self.add_node("hi", i)
-            for i in range(20,72):  # blue beds 20-71
-                self.add_node("mid", i)
-            for i in range(72,100):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
-                self.add_node("mid", i)
-            self.network_plot.add_nodes_from(self.nodes)
-            
-            # edges
-            for i in range(3):  # pink connections
-                # b/t roommates
-                self.network_plot.add_edge(self.nodes[2*i],self.nodes[(2*i)+1])
-                self.network_plot.add_edge(self.nodes[(2*i)+6],self.nodes[(2*i)+7])
-                # b/t nurses and roommates
-                self.network_plot.add_edge(self.nodes[2*i],self.nodes[i+72])
-                self.network_plot.add_edge(self.nodes[(2*i)+6],self.nodes[i+72+3])
-                
-            # yellow connections to nurses
-            self.network_plot.add_edge(self.nodes[78],self.nodes[12])
-            self.network_plot.add_edge(self.nodes[78],self.nodes[13])
-            self.network_plot.add_edge(self.nodes[79],self.nodes[14])
-            self.network_plot.add_edge(self.nodes[79],self.nodes[15])
-            self.network_plot.add_edge(self.nodes[80],self.nodes[16])
-            self.network_plot.add_edge(self.nodes[80],self.nodes[17])
-            self.network_plot.add_edge(self.nodes[81],self.nodes[18])
-            self.network_plot.add_edge(self.nodes[81],self.nodes[19])
-            
-            for i in range(8):  # blue triple room connections
-                # between roommates
-                self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[(3*i)+21])
-                self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[(3*i)+22])
-                self.network_plot.add_edge(self.nodes[(3*i)+21],self.nodes[(3*i)+22])
-                self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[(3*i)+21+26])
-                self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[(3*i)+22+26])
-                self.network_plot.add_edge(self.nodes[(3*i)+21+26],self.nodes[(3*i)+22+26])
-                # between nurse and roommates
-                self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[i+82])
-                self.network_plot.add_edge(self.nodes[(3*i)+21],self.nodes[i+82])
-                self.network_plot.add_edge(self.nodes[(3*i)+22],self.nodes[i+82])
-                self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[i+82+9])
-                self.network_plot.add_edge(self.nodes[(3*i)+21+26],self.nodes[i+82+9])
-                self.network_plot.add_edge(self.nodes[(3*i)+22+26],self.nodes[i+82+9])
-                
-            # double room roommate connections
-            self.network_plot.add_edge(self.nodes[44],self.nodes[45])
-            self.network_plot.add_edge(self.nodes[44+26],self.nodes[45+26])
-            # nurse connections
-            self.network_plot.add_edge(self.nodes[44],self.nodes[82+8])
-            self.network_plot.add_edge(self.nodes[45],self.nodes[82+8])
-            self.network_plot.add_edge(self.nodes[44+26],self.nodes[99])
-            self.network_plot.add_edge(self.nodes[45+26],self.nodes[99])
+            self.construct_network_b()
 
-            for i in [72,73,74,78,79]:  # pink/yellow staff connections (floor 1)
-                for j in [72,73,74,78,79]:
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-                        self.network_plot.add_edge(self.nodes[i+12],self.nodes[j+12]) 
-                        
-            for i in [75,76,77,80,81]:  # pink/yellow staff connections (floor 2)
-                for j in [75,76,77,80,81]:
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-                        self.network_plot.add_edge(self.nodes[i+12],self.nodes[j+12]) 
-            
-            for i in range(82,86):  # blue staff connections(floor 1.1)
-                for j in range(82,86):
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-                        
-            for i in range(87,90):  # blue staff connections(floor 1.2)
-                for j in range(87,90):
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-                        
-            for i in range(91, 95):  # blue staff connections(floor 2.1)
-                for j in range(91, 95):
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-
-            for i in range(96, 99):  # blue staff connections(floor 2.2)
-                for j in range(96, 99):
-                    if(i!=j):
-                        self.network_plot.add_edge(self.nodes[i],self.nodes[j])
-                        
         elif version == "c":
             n = 102            # Number of nodes
             # self.nodes = empty(n, dtype=polya_node) 
@@ -154,9 +67,7 @@ class network:
             # for i, node in enumerate(self.nodes):   # Add neighbours to nodes
             #     neighbour_indexes = [ind for ind in self.network_plot.neighbors(i)]
             #     self.nodes[i].add_neighbours([self.nodes[ind] for ind in neighbour_indexes])
-    
-
-    
+   
     def add_node(self, risk, _id):
         new_node = polya_node(risk, _id)
         self.nodes.append(new_node)
@@ -209,3 +120,105 @@ class network:
         # end of drawing, time to re-compute graph
         self.recompute_urns()
         self.update_deltas()
+
+
+    def construct_network_b(self):
+        # Number of nodes
+        # self.nodes = empty(n, dtype=polya_node)
+        # curr = 0  # tracker of current node index
+        
+        for i in range(0,12):  # pink beds 0-11
+            self.add_node("mid", i)
+        for i in range(12,20):  # yellow beds 12-19
+            self.add_node("hi", i)
+        for i in range(20,72):  # blue beds 20-71
+            self.add_node("mid", i)
+        for i in range(72,100):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
+            self.add_node("mid", i)
+        self.network_plot.add_nodes_from(self.nodes)
+        
+        # edges
+        for i in range(3):  # pink connections
+            # b/t roommates
+            self.network_plot.add_edge(self.nodes[2*i],self.nodes[(2*i)+1])
+            self.network_plot.add_edge(self.nodes[(2*i)+6],self.nodes[(2*i)+7])
+            # b/t nurses and roommates
+            self.network_plot.add_edge(self.nodes[2*i],self.nodes[i+72])
+            self.network_plot.add_edge(self.nodes[(2*i)+6],self.nodes[i+72+3])
+            
+        # yellow connections to nurses
+        self.network_plot.add_edge(self.nodes[78],self.nodes[12])
+        self.network_plot.add_edge(self.nodes[78],self.nodes[13])
+        self.network_plot.add_edge(self.nodes[79],self.nodes[14])
+        self.network_plot.add_edge(self.nodes[79],self.nodes[15])
+        self.network_plot.add_edge(self.nodes[80],self.nodes[16])
+        self.network_plot.add_edge(self.nodes[80],self.nodes[17])
+        self.network_plot.add_edge(self.nodes[81],self.nodes[18])
+        self.network_plot.add_edge(self.nodes[81],self.nodes[19])
+        
+        for i in range(8):  # blue triple room connections
+            # between roommates
+            self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[(3*i)+21])
+            self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[(3*i)+22])
+            self.network_plot.add_edge(self.nodes[(3*i)+21],self.nodes[(3*i)+22])
+            self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[(3*i)+21+26])
+            self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[(3*i)+22+26])
+            self.network_plot.add_edge(self.nodes[(3*i)+21+26],self.nodes[(3*i)+22+26])
+            # between nurse and roommates
+            self.network_plot.add_edge(self.nodes[(3*i)+20],self.nodes[i+82])
+            self.network_plot.add_edge(self.nodes[(3*i)+21],self.nodes[i+82])
+            self.network_plot.add_edge(self.nodes[(3*i)+22],self.nodes[i+82])
+            self.network_plot.add_edge(self.nodes[(3*i)+20+26],self.nodes[i+82+9])
+            self.network_plot.add_edge(self.nodes[(3*i)+21+26],self.nodes[i+82+9])
+            self.network_plot.add_edge(self.nodes[(3*i)+22+26],self.nodes[i+82+9])
+            
+        # double room roommate connections
+        self.network_plot.add_edge(self.nodes[44],self.nodes[45])
+        self.network_plot.add_edge(self.nodes[44+26],self.nodes[45+26])
+        # nurse connections
+        self.network_plot.add_edge(self.nodes[44],self.nodes[82+8])
+        self.network_plot.add_edge(self.nodes[45],self.nodes[82+8])
+        self.network_plot.add_edge(self.nodes[44+26],self.nodes[99])
+        self.network_plot.add_edge(self.nodes[45+26],self.nodes[99])
+        
+        for i in [72,73,74,78,79]:  # pink/yellow staff connections (floor 1)
+            for j in [72,73,74,78,79]:
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+                    self.network_plot.add_edge(self.nodes[i+12],self.nodes[j+12]) 
+                    
+        for i in [75,76,77,80,81]:  # pink/yellow staff connections (floor 2)
+            for j in [75,76,77,80,81]:
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+                    self.network_plot.add_edge(self.nodes[i+12],self.nodes[j+12]) 
+        
+        for i in range(82,86):  # blue staff connections(floor 1.1)
+            for j in range(82,86):
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+                    
+        for i in range(87,90):  # blue staff connections(floor 1.2)
+            for j in range(87,90):
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+                    
+        for i in range(91, 95):  # blue staff connections(floor 2.1)
+            for j in range(91, 95):
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+
+        for i in range(96, 99):  # blue staff connections(floor 2.2)
+            for j in range(96, 99):
+                if(i!=j):
+                    self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        
+        #connections between groups of nurses/floors  
+        self.network_plot.add_edge(self.nodes[74],self.nodes[82])  # pink/yellow to blue (floor 1)
+        self.network_plot.add_edge(self.nodes[77],self.nodes[91])  # pink/yellow to blue (floor 2)
+        self.network_plot.add_edge(self.nodes[86],self.nodes[87])  # b/t 2 groups of blue nurses
+        self.network_plot.add_edge(self.nodes[95],self.nodes[96])  
+        self.network_plot.add_edge(self.nodes[72],self.nodes[75]) # pink f1 to f2
+        self.network_plot.add_edge(self.nodes[85],self.nodes[94]) # blue1 f1 to f2
+        self.network_plot.add_edge(self.nodes[90],self.nodes[99]) # blue2 f1 to f2
+    # end construct_network_b
