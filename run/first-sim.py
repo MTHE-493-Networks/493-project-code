@@ -50,3 +50,5 @@ plt.ylabel('Average Proportion of Red Balls Over All Urns')
 # plot data
 plot_ave_red_proportion(red_prop_data)
 plot_ave_infection_rate(super_red_prop_data)
+
+print("Done")

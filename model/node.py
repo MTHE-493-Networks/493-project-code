@@ -49,7 +49,10 @@ class polya_node:
         total_black = self.total_black
         for i in self.neighbours:
             total_black += i.total_black
-        db = floor(total_black/ len(self.neighbours))
+        try:
+            db = floor(total_black/ len(self.neighbours))
+        except:
+            print("Urn with ID #" + str(self.id) + " has no neighbours")
         if db == 0:
             db = 1
         self.delta_b = db
@@ -59,7 +62,10 @@ class polya_node:
         for i in self.neighbours:
             total_red += i.total_red
 
-        dr = floor(total_red / (len(self.neighbours)))
+        try:
+            dr = floor(total_red / (len(self.neighbours)))
+        except:
+            print("Urn with ID #" + str(self.id) + " has no neighbours")
         if dr == 0:
             dr = 1
         self.delta_r = dr

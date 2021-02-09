@@ -33,11 +33,12 @@ class network:
             # self.nodes = empty(n, dtype=polya_node) 
             
         elif version == "b":
-            n = 100              # Number of nodes
+            n = 105              # Number of nodes
             self.construct_network_b()
 
         elif version == "c":
-            n = 102            # Number of nodes
+            n = 106          # Number of nodes
+            self.construct_network_c()
             # self.nodes = empty(n, dtype=polya_node) 
             
             
@@ -135,6 +136,9 @@ class network:
             self.add_node("mid", i)
         for i in range(72,100):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
             self.add_node("mid", i)
+        for i in range(100,105): # dining staff 100-104
+            self.add_node("lo", i)
+            
         self.network_plot.add_nodes_from(self.nodes)
         
         # edges
@@ -221,4 +225,161 @@ class network:
         self.network_plot.add_edge(self.nodes[72],self.nodes[75]) # pink f1 to f2
         self.network_plot.add_edge(self.nodes[85],self.nodes[94]) # blue1 f1 to f2
         self.network_plot.add_edge(self.nodes[90],self.nodes[99]) # blue2 f1 to f2
-    # end construct_network_b
+        
+        # connections between dining room staff
+        for i in range(100,104):
+            for j in range(i+1,105):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+
+        # connections between dining room staff and residents
+        for i in range(0,100):
+            for j in range(100,105):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+    #end construct_network_b()
+    
+    
+    def construct_network_c(self):
+        # nodes
+        for i in range(0,4):  #0-3: unit C hi risk
+            self.add_node("hi", i)
+        for i in range(4,21):  #4-20: unit C normal
+            self.add_node("mid", i)
+        for i in range(21,25):  #21-24: unit B hi risk
+            self.add_node("hi", i)
+        for i in range(25,42):  #25-41: unit B normal
+            self.add_node("mid", i)
+        for i in range(42,82):  #42-81: unit A
+            self.add_node("mid", i)
+        for i in range(82,90):  #82-89: student/PSW
+            self.add_node("lo", i) #82-83 C, 84-85 B, 86-89 A
+        for i in range(90,106): #90-105: workers
+            self.add_node("mid", i) #90-92 C, 93-95 B, 96-97 top din, 98-103 A, 104-105 bot din
+        self.network_plot.add_nodes_from(self.nodes)
+        
+        # edges        
+        # Unit C residents-workers
+        for i in range(0,4): # 4 hi risk
+            self.network_plot.add_edge(self.nodes[i],self.nodes[90])
+        for i in range(4,13): # 4 middle rooms
+            self.network_plot.add_edge(self.nodes[i],self.nodes[91])
+        for i in range(13,21): # 3 southern rooms
+            self.network_plot.add_edge(self.nodes[i],self.nodes[92])
+        for i in range(0, 9): #PSW 1
+            self.network_plot.add_edge(self.nodes[i],self.nodes[82])
+        for i in range(9, 21): #PSW 2
+            self.network_plot.add_edge(self.nodes[i],self.nodes[83])        
+        # unit C roommates
+        for i in range(5,8):
+            for j in range(i+1,9):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        self.network_plot.add_edge(self.nodes[9],self.nodes[10])
+        self.network_plot.add_edge(self.nodes[12],self.nodes[12])
+        self.network_plot.add_edge(self.nodes[13],self.nodes[14])
+        for i in range(15,17):
+            for j in range(i+1,18):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(18,20):
+            for j in range(i+1,21):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])               
+        # unit b residents-workers
+        for i in range(21,25): # 4 hi risk
+            self.network_plot.add_edge(self.nodes[i],self.nodes[93])
+        for i in range(25,32): # 4 middle rooms
+            self.network_plot.add_edge(self.nodes[i],self.nodes[94])
+        for i in range(32,42): # 3 southern rooms
+            self.network_plot.add_edge(self.nodes[i],self.nodes[95])
+        for i in range(21, 28): #PSW 1
+            self.network_plot.add_edge(self.nodes[i],self.nodes[84])
+        for i in range(28, 42): #PSW 2
+            self.network_plot.add_edge(self.nodes[i],self.nodes[85])         
+        #unit b roommates
+        self.network_plot.add_edge(self.nodes[26],self.nodes[27])
+        self.network_plot.add_edge(self.nodes[28],self.nodes[29])
+        self.network_plot.add_edge(self.nodes[30],self.nodes[31])
+        self.network_plot.add_edge(self.nodes[32],self.nodes[33])        
+        for i in range(34,37):
+            for j in range(i+1,38):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(39,42):
+            for j in range(i+1,43):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        # unit a roommates
+        self.network_plot.add_edge(self.nodes[44],self.nodes[45])
+        self.network_plot.add_edge(self.nodes[51],self.nodes[50])
+        for i in range(52,55):
+            for j in range(i+1,56):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(56,59):
+            for j in range(i+1,60):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(60,63):
+            for j in range(i+1,64):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        self.network_plot.add_edge(self.nodes[64],self.nodes[65])
+        for i in range(66,69):
+            for j in range(i+1,70):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(70,73):
+            for j in range(i+1,74):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(74,77):
+            for j in range(i+1,78):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        for i in range(78,81):
+            for j in range(i+1,82):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        # unit a residents-workers/PSW 42-81: unit A residents
+        for i in range(42,46):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[98]) #worker
+            self.network_plot.add_edge(self.nodes[i],self.nodes[86]) #PSW
+        for i in range(46, 50):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[99])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[86])
+        for i in range(50,64):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[100])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[87])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[101])
+        for i in range(64,74):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[102])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[88])
+        for i in range(74,82):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[103])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[89])
+        # between workers, PSW
+        # PSW: 82-83 C, 84-85 B, 86-89 A
+        # workers: 90-92 C, 93-95 B, 96-97 top din, 98-103 A, 104-105 bot din
+        self.network_plot.add_edge(self.nodes[90],self.nodes[82])
+        self.network_plot.add_edge(self.nodes[91],self.nodes[82])
+        self.network_plot.add_edge(self.nodes[91],self.nodes[83])
+        self.network_plot.add_edge(self.nodes[92],self.nodes[83])
+        self.network_plot.add_edge(self.nodes[93],self.nodes[84])
+        self.network_plot.add_edge(self.nodes[94],self.nodes[84])
+        self.network_plot.add_edge(self.nodes[94],self.nodes[85])
+        self.network_plot.add_edge(self.nodes[95],self.nodes[85])
+        self.network_plot.add_edge(self.nodes[96],self.nodes[97])
+        self.network_plot.add_edge(self.nodes[98],self.nodes[86])
+        self.network_plot.add_edge(self.nodes[99],self.nodes[86])
+        self.network_plot.add_edge(self.nodes[99],self.nodes[87])
+        self.network_plot.add_edge(self.nodes[100],self.nodes[87])
+        self.network_plot.add_edge(self.nodes[100],self.nodes[101])
+        self.network_plot.add_edge(self.nodes[102],self.nodes[88])
+        self.network_plot.add_edge(self.nodes[103],self.nodes[88])
+        self.network_plot.add_edge(self.nodes[103],self.nodes[89])
+        # between dining staff and all residents
+        for i in range(0,42):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[96])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[97])
+        for i in range(42,82):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[104])
+            self.network_plot.add_edge(self.nodes[i],self.nodes[105])
+    #end construct_network_c
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    

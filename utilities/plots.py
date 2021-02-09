@@ -45,7 +45,7 @@ def plot_ave_red_proportion(red_prop_data):
     plt.plot(time, average_red_prop)
     plt.xlabel('Step')
     plt.ylabel('Average proportion of red balls in each urn')
-    plt.savefig("graphs/Average proportion of red balls over time.png", format="PNG")
+    plt.savefig("graphs/Average proportion of red balls over time.PNG", format="PNG")
     plt.clf()
     
 def plot_ave_infection_rate(superred_prop_data):
@@ -57,5 +57,5 @@ def plot_ave_infection_rate(superred_prop_data):
     plt.plot(time, average_red_prop)
     plt.xlabel('Step')
     plt.ylabel('Average infection rate')
-    plt.savefig("graphs/Average infection rate over time.png", format="PNG")
+    plt.savefig("graphs/Average infection rate over time.PNG", format="PNG")
     plt.clf()
