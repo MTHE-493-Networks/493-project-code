@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each urn over time
 super_red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each superurn over time
-G_super = network("b")
+G_super = network("a")
 
 for i in G_super.nodes:
     # record initial infection rate data
