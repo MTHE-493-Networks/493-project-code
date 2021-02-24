@@ -135,11 +135,11 @@ class network:
             self.add_node("mid", i)
         for i in range(64,80):  # Room staff: 64-71 wing A, 72-79 wing B
             if (i%2 == 0):      # Even numbers regular, odd nursing students
-                self.add_node("mid", i)
+                self.add_node("mid-ext", i)
             else:
-                self.add_node("lo", i)
+                self.add_node("lo-ext", i)
         for i in range(80, 84):  # Dining staff
-            self.add_node("lo", i)
+            self.add_node("lo-ext", i)
 
         # edges
         # all main workers-patron connections
@@ -185,9 +185,9 @@ class network:
         for i in range(20,72):  # blue beds 20-71
             self.add_node("mid", i)
         for i in range(72,100):  # staff 72-99 {pink(6) 72-77, yellow(4) 78-81, blue(18) 82-99}
-            self.add_node("mid", i)
+            self.add_node("mid-ext", i)
         for i in range(100,105): # dining staff 100-104
-            self.add_node("lo", i)
+            self.add_node("lo-ext", i)
             
         self.network_plot.add_nodes_from(self.nodes)
         
@@ -301,9 +301,9 @@ class network:
         for i in range(42,82):  #42-81: unit A
             self.add_node("mid", i)
         for i in range(82,90):  #82-89: student/PSW
-            self.add_node("lo", i) #82-83 C, 84-85 B, 86-89 A
+            self.add_node("lo-ext", i) #82-83 C, 84-85 B, 86-89 A
         for i in range(90,106): #90-105: workers
-            self.add_node("mid", i) #90-92 C, 93-95 B, 96-97 top din, 98-103 A, 104-105 bot din
+            self.add_node("mid-ext", i) #90-92 C, 93-95 B, 96-97 top din, 98-103 A, 104-105 bot din
         self.network_plot.add_nodes_from(self.nodes)
         
         # edges        
