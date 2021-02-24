@@ -28,9 +28,9 @@ class network:
     # Function to generate network
     def generate_network(self, version):
         # mapping = {}
-        if version == "new":
-            n = 0              # Number of nodes
-            # self.nodes = empty(n, dtype=polya_node) 
+        if version == "a":
+            n = 105              # Number of nodes
+            self.construct_network_a()
             
         elif version == "b":
             n = 105              # Number of nodes
@@ -122,6 +122,56 @@ class network:
         self.recompute_urns()
         self.update_deltas()
 
+
+
+
+
+# Network Constructions a, b, and c
+    
+    def construct_network_a(self):
+        for i in range(0, 32):  # Wing A beds
+            self.add_node("mid", i)
+        for i in range(32, 64):  # Wing B beds
+            self.add_node("mid", i)
+        for i in range(64,80):  # Room staff: 64-71 wing A, 72-79 wing B
+            if (i%2 == 0):      # Even numbers regular, odd nursing students
+                self.add_node("mid", i)
+            else:
+                self.add_node("lo", i)
+        for i in range(80, 84):  # Dining staff
+            self.add_node("lo", i)
+
+        # edges
+        # all main workers-patron connections
+        for j in range(0, 16):
+            for i in range(4*j, 4*j + 4):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[64+j])
+        # dining staff
+        for i in range(0, 64):
+            for j in range(80, 84):
+                self.network_plot.add_edge(self.nodes[i],self.nodes[j])
+        # semi-private connections
+        self.network_plot.add_edge(self.nodes[36],self.nodes[37])
+        self.network_plot.add_edge(self.nodes[42],self.nodes[43])
+        self.network_plot.add_edge(self.nodes[46],self.nodes[47])
+        self.network_plot.add_edge(self.nodes[50],self.nodes[51])
+        self.network_plot.add_edge(self.nodes[54],self.nodes[55])     
+        self.network_plot.add_edge(self.nodes[58],self.nodes[59])
+        self.network_plot.add_edge(self.nodes[4],self.nodes[5])
+        self.network_plot.add_edge(self.nodes[10],self.nodes[11])
+        self.network_plot.add_edge(self.nodes[14],self.nodes[15])
+        self.network_plot.add_edge(self.nodes[18],self.nodes[19])
+        self.network_plot.add_edge(self.nodes[26],self.nodes[27])
+        self.network_plot.add_edge(self.nodes[22],self.nodes[23])
+        # connections between workers and wings
+        for i in range(64, 79):
+            self.network_plot.add_edge(self.nodes[i],self.nodes[i+1])
+        # close the loops
+        self.network_plot.add_edge(self.nodes[64],self.nodes[71])
+        self.network_plot.add_edge(self.nodes[72],self.nodes[79])
+        
+
+        
 
     def construct_network_b(self):
         # Number of nodes
@@ -373,13 +423,3 @@ class network:
             self.network_plot.add_edge(self.nodes[i],self.nodes[104])
             self.network_plot.add_edge(self.nodes[i],self.nodes[105])
     #end construct_network_c
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
