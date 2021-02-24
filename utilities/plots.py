@@ -7,7 +7,7 @@ from networkx import draw_networkx_nodes, draw_networkx_edges, kamada_kawai_layo
 
 
 
-def draw_graph(G, step):
+def draw_graph(G, step, k):
     G = G.network_plot
 
     color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
@@ -22,17 +22,17 @@ def draw_graph(G, step):
     cmap = cm.get_cmap('coolwarm')
 
     weights = color_lookup.values()
-    sizes = [50 if weight <= .6 else 100 for weight in weights]
+    sizes = [200 if weight <= .6 else 400 for weight in weights]
     node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
     if all(node_colors):
         node_colors = 'r'
     # min_val, max_val = min(weights), max(weights)
 
-    draw_networkx_edges(graph, plot_layout, alpha=0.05)
+    draw_networkx_edges(graph, plot_layout,alpha=0.5, width=1)
     draw_networkx_nodes(graph, plot_layout, node_size=sizes, linewidths=.5, edgecolors='k', node_color=node_colors,
                         cmap=cmap)
 
-    savefig("graphs/network-images/Graph" + str(step) + ".png", format="PNG")
+    savefig("graphs/network-images/" + str(k) + "Graph" + str(step) + ".png", format="PNG")
     clf()
 
 def plot_ave_red_proportion(red_prop_data):
