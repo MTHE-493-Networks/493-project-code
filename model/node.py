@@ -12,18 +12,29 @@ class polya_node:
         # self.profile = profile   # to be given as an input instead of red/black?
         self.risk = profile
         
+        # wait until network has been created to set deltas
+        self.delta_r = 0
+        self.delta_b = 0
+        
         if self.risk == "mid":
             self.init_red = 2
             self.init_black = 2
-            
         elif self.risk == "hi":
             self.init_red = 3
-            self.init_black = 1
-            
+            self.init_black = 1 
         elif self.risk == "lo":
             self.init_red = 1
             self.init_black = 3
-            
+        elif self.risk == "mid-ext":
+            self.init_red = 2
+            self.init_black = 2
+            self.delta_r = 5
+            self.delta_b = 5
+        elif self.risk == "lo-ext":
+            self.init_red = 1
+            self.init_black = 3
+            self.delta_r = 2
+            self.delta_b = 3
         # elif self.profile == "hi traffic worker":
         #     self.init_red = 2
         #     self.init_black = 2
@@ -35,9 +46,7 @@ class polya_node:
         self.total_red = self.init_red
         self.total_black = self.init_black
         
-        # wait until network has been created to set deltas
-        self.delta_r = 0
-        self.delta_b = 0
+
         
         self.neighbours = []  # list of neighbours
         self.degree = 0  # number of neighbours
@@ -46,29 +55,31 @@ class polya_node:
 
 
     def set_delta_b(self):
-        total_black = self.total_black
-        for i in self.neighbours:
-            total_black += i.total_black
-        try:
-            db = floor(total_black/ len(self.neighbours))
-        except:
-            print("Urn with ID #" + str(self.id) + " has no neighbours")
-        if db == 0:
-            db = 1
-        self.delta_b = db
+        if "ext" not in self.risk:
+            total_black = self.total_black
+            for i in self.neighbours:
+                total_black += i.total_black
+            try:
+                db = floor(total_black/ len(self.neighbours))
+            except:
+                print("Urn with ID #" + str(self.id) + " has no neighbours")
+            if db == 0:
+                db = 1
+            self.delta_b = db
     
     def set_delta_r(self):
-        total_red = self.total_red
-        for i in self.neighbours:
-            total_red += i.total_red
-
-        try:
-            dr = floor(total_red / (len(self.neighbours)))
-        except:
-            print("Urn with ID #" + str(self.id) + " has no neighbours")
-        if dr == 0:
-            dr = 1
-        self.delta_r = dr
+        if "ext" not in self.risk:
+            total_red = self.total_red
+            for i in self.neighbours:
+                total_red += i.total_red
+    
+            try:
+                dr = floor(total_red / (len(self.neighbours)))
+            except:
+                print("Urn with ID #" + str(self.id) + " has no neighbours")
+            if dr == 0:
+                dr = 1
+            self.delta_r = dr
 
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
