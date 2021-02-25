@@ -17,14 +17,14 @@ class polya_node:
         self.delta_b = 0
         
         if self.risk == "mid":
-            self.init_red = 2
-            self.init_black = 2
+            self.init_red = 1
+            self.init_black = 8
         elif self.risk == "hi":
-            self.init_red = 3
-            self.init_black = 1 
+            self.init_red = 2
+            self.init_black = 4
         elif self.risk == "lo":
             self.init_red = 1
-            self.init_black = 3
+            self.init_black = 10
         elif self.risk == "mid-ext":
             self.init_red = 2
             self.init_black = 2
@@ -111,3 +111,9 @@ class polya_node:
     def add_neighbours(self, neighbours):
         self.neighbours = neighbours
         self.degree = len(self.neighbours)
+    
+    def set_patient_zero(self):
+        self.init_red = 30
+        self.init_black = 3
+        self.total_red = self.init_red
+        self.total_black = self.init_black

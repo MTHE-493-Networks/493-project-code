@@ -140,7 +140,7 @@ class network:
                 self.add_node("lo-ext", i)
         for i in range(80, 84):  # Dining staff
             self.add_node("lo-ext", i)
-
+        self.nodes[64].set_patient_zero()
         # edges
         # all main workers-patron connections
         for j in range(0, 16):
@@ -188,7 +188,7 @@ class network:
             self.add_node("mid-ext", i)
         for i in range(100,105): # dining staff 100-104
             self.add_node("lo-ext", i)
-            
+        self.nodes[72].set_patient_zero() 
         self.network_plot.add_nodes_from(self.nodes)
         
         # edges
@@ -305,7 +305,7 @@ class network:
         for i in range(90,106): #90-105: workers
             self.add_node("mid-ext", i) #90-92 C, 93-95 B, 96-97 top din, 98-103 A, 104-105 bot din
         self.network_plot.add_nodes_from(self.nodes)
-        
+        self.nodes[90].set_patient_zero()
         # edges        
         # Unit C residents-workers
         for i in range(0,4): # 4 hi risk
