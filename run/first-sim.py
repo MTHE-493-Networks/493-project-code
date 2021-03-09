@@ -9,10 +9,22 @@ for k in range(1):
     G_super = network("b")
 
 
+for i in G_super.nodes:
+    # record initial infection rate data
+    red_prop_data[0].append(i.red_proportion())
+    super_red_prop_data[0].append(i.super_red_proportion())
+    
+    #print r/b balls in each urn initially
+    #print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+
+for j in range(time_steps):
+    print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Black/red balls are " + str(G_super.nodes[0].total_black) +"/"+ str(G_super.nodes[0].total_red))
+    
+    # if j % 10 == 0:
+    #     draw_graph(G_super, j)
+    G_super.supernode_run_step()
     for i in G_super.nodes:
         # record initial infection rate data
-        red_prop_data[0].append(i.red_proportion())
-        super_red_prop_data[0].append(i.super_red_proportion())
         red_prop_data[j+1].append(i.red_proportion())
         super_red_prop_data[j+1].append(i.super_red_proportion())
         
