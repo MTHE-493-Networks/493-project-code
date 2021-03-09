@@ -65,10 +65,10 @@ plt.xlabel('Step')
 # naming the y axis
 plt.ylabel('Average Proportion of Red Balls Over All Urns')
 
-    # plot data
-    plot_ave_red_proportion(red_prop_data)
-    plot_ave_infection_rate(super_red_prop_data)
-    total_infected_plot(G_super)
-    average_total_infected_plot(G_super)
+# plot data
+plot_ave_red_proportion(red_prop_data)
+plot_ave_infection_rate(super_red_prop_data)
+total_infected_plot(G_super)
+average_total_infected_plot(G_super)
 
 print("Done")
