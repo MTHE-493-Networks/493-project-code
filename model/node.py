@@ -81,6 +81,10 @@ class polya_node:
                 dr = 1
             self.delta_r = dr
 
+    def remove_init_balls(self):
+        self.total_black -= self.init_black
+        self.total_red -= self.init_red
+        
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
     

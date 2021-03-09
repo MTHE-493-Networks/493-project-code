@@ -9,7 +9,7 @@ init_red_balls = 1
 init_black_balls = 1
 init_split = (init_red_balls + init_black_balls)/2
 spread_rate = 10
-time_steps = 200
+time_steps = 90
 number_of_nodes = 100
 memory = 3
 

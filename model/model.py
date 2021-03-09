@@ -113,6 +113,10 @@ class network:
         
     #draws a ball from every superurn in the network
     def supernode_run_step(self):
+        self.steps += 1
+        if self.steps == 10:
+            for node in self.nodes:
+                node.remove_init_balls()
         for node in self.nodes:
             total_red = node.total_red
             total_black = node.total_black
@@ -128,6 +132,7 @@ class network:
         # end of drawing, time to re-compute graph
         self.recompute_urns()
         self.update_deltas()
+        
 
 
 
