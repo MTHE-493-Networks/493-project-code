@@ -21,7 +21,8 @@ class network:
         self.network_plot = nx.Graph()  # init empty graph
         self.nodes = []     # empty array of nodes - initialized in generate_network()
         self.generate_network(version)     # Generate network
-
+        
+        self.total_infected = []
 
 
 
@@ -93,6 +94,7 @@ class network:
             self.draw_data[node.id][0] = node.delta_r
         
     def recompute_urns(self):
+        infected = 0
         for node in self.nodes:
             total_red = node.init_red
             total_black = node.init_black
@@ -101,8 +103,13 @@ class network:
                     total_black += self.draw_data[node.id][n]
                 elif self.Z[node.id][n] == 1:
                     total_red += self.draw_data[node.id][n]
+            infection_percent = total_red / (total_red+total_black)
+            if infection_percent >= 0.6:
+                infected += 1
             node.total_red = total_red
             node.total_black = total_black
+        self.total_infected.append(infected)
+        
         
     #draws a ball from every superurn in the network
     def supernode_run_step(self):

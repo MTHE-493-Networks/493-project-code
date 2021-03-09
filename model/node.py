@@ -17,22 +17,22 @@ class polya_node:
         self.delta_b = 0
         
         if self.risk == "mid":
-            self.init_red = 1
-            self.init_black = 8
+            self.init_red = 6
+            self.init_black = 4
         elif self.risk == "hi":
-            self.init_red = 2
+            self.init_red = 6
             self.init_black = 4
         elif self.risk == "lo":
-            self.init_red = 1
-            self.init_black = 10
+            self.init_red = 4
+            self.init_black = 6
         elif self.risk == "mid-ext":
-            self.init_red = 2
-            self.init_black = 2
+            self.init_red = 5
+            self.init_black = 5
             self.delta_r = 5
             self.delta_b = 5
         elif self.risk == "lo-ext":
-            self.init_red = 1
-            self.init_black = 3
+            self.init_red = 4
+            self.init_black = 6
             self.delta_r = 2
             self.delta_b = 3
         # elif self.profile == "hi traffic worker":

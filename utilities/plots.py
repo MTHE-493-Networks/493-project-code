@@ -1,13 +1,15 @@
+import numpy as np
 import networkx as nx
 import matplotlib as mpl
+from scipy.signal import savgol_filter
 from matplotlib import pyplot as plt
 from utilities.utilities import time_steps
 from matplotlib.pyplot import figure, draw, show, savefig, cm, colorbar, Normalize, rcParams, clf
 from networkx import draw_networkx_nodes, draw_networkx_edges, kamada_kawai_layout
+from model.model import network
 
 
-
-def draw_graph(G, step, k):
+def draw_graph(G, step, l):
     G = G.network_plot
 
     color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
@@ -32,7 +34,7 @@ def draw_graph(G, step, k):
     draw_networkx_nodes(graph, plot_layout, node_size=sizes, linewidths=.5, edgecolors='k', node_color=node_colors,
                         cmap=cmap)
 
-    savefig("graphs/network-images/" + str(k) + "Graph" + str(step) + ".png", format="PNG")
+    savefig("graphs/network-images/" + str(l) + "Graph" + str(step) + ".png", format="PNG")
     clf()
 
 def plot_ave_red_proportion(red_prop_data):
@@ -59,3 +61,26 @@ def plot_ave_infection_rate(superred_prop_data):
     plt.ylabel('Average infection rate')
     plt.savefig("graphs/Average infection rate over time.PNG", format="PNG")
     plt.clf()
+
+def total_infected_plot(G):
+    time = range(time_steps)
+
+    plt.plot(time, G.total_infected)
+    plt.xlabel('Step')
+    plt.ylabel('Number of Infected')
+    plt.savefig("graphs/TotalNumInfected.PNG", format="PNG")
+    plt.clf()
+
+def average_total_infected_plot(G):
+    time = range(time_steps)
+
+    yhat = savgol_filter(G.total_infected, 51, 3) # window size 51, polynomial order 3
+
+    plt.plot(time, G.total_infected)
+    plt.plot(time,yhat, color='red')
+    plt.xlabel('Step')
+    plt.ylabel('Number of Infected')
+    plt.savefig("graphs/TotalNumInfected.PNG", format="PNG")
+    plt.clf()
+
+
