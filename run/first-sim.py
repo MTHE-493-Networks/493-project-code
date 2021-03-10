@@ -9,66 +9,49 @@ for k in range(1):
     G_super = network("b")
 
 
-for i in G_super.nodes:
-    # record initial infection rate data
-    red_prop_data[0].append(i.red_proportion())
-    super_red_prop_data[0].append(i.super_red_proportion())
-    
-    #print r/b balls in each urn initially
-    #print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
-
-for j in range(time_steps):
-    print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Black/red balls are " + str(G_super.nodes[0].total_black) +"/"+ str(G_super.nodes[0].total_red))
-    
-    # if j % 10 == 0:
-    #     draw_graph(G_super, j)
-    G_super.supernode_run_step()
     for i in G_super.nodes:
         # record initial infection rate data
-        red_prop_data[j+1].append(i.red_proportion())
-        super_red_prop_data[j+1].append(i.super_red_proportion())
+        red_prop_data[0].append(i.red_proportion())
+        super_red_prop_data[0].append(i.super_red_proportion())
         
-        # print r/b balls in each urn initially
-        # print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+        #print r/b balls in each urn initially
+        #print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
 
+    
     for j in range(time_steps):
         print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
         
-        if j % 10 == 0:
+        if j % 5 == 0:
             draw_graph(G_super, j, k)
         G_super.supernode_run_step()
         for i in G_super.nodes:
             red_prop_data[j+1].append(i.red_proportion())
             super_red_prop_data[j+1].append(i.super_red_proportion())
 
-    time = []
-    average_red_prop = []
-    
-    for j in range(time_steps):
-        average_red_prop.append(sum(red_prop_data[j])/len(red_prop_data[j]))
-        time.append(j)
+        # time = []
+        # average_red_prop = []
+        
+        # for j in range(time_steps):
+            # average_red_prop.append(sum(red_prop_data[j])/len(red_prop_data[j]))
+            # time.append(j)
 
-time = []
-average_red_prop = []
-for j in range(time_steps):
-    average_red_prop.append(sum(red_prop_data[j])/len(red_prop_data[j]))
-    time.append(j)
-x = time
-# corresponding y axis values
-y = average_red_prop
 
-# plotting the points
-plt.plot(x, y)
+    # x = range(time_steps)
+    # corresponding y axis values
+    # y = average_red_prop
 
-# naming the x axis
-plt.xlabel('Step')
-# naming the y axis
-plt.ylabel('Average Proportion of Red Balls Over All Urns')
+    # plotting the points
+    # plt.plot(x, y)
 
-# plot data
-plot_ave_red_proportion(red_prop_data)
-plot_ave_infection_rate(super_red_prop_data)
-total_infected_plot(G_super)
-average_total_infected_plot(G_super)
+    # naming the x axis
+    # plt.xlabel('Step')
+    # naming the y axis
+    # plt.ylabel('Average Proportion of Red Balls Over All Urns')
 
-print("Done")
+    # plot data
+    # plot_ave_red_proportion(red_prop_data)
+    # plot_ave_infection_rate(super_red_prop_data)
+    total_infected_plot(G_super)
+    average_total_infected_plot(G_super)
+
+    print("Done")

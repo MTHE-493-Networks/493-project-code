@@ -74,7 +74,7 @@ class polya_node:
                 total_red += i.total_red
     
             try:
-                dr = floor(total_red / (len(self.neighbours)))
+                dr = floor(1.3*(total_red / (len(self.neighbours))))
             except:
                 print("Urn with ID #" + str(self.id) + " has no neighbours")
             if dr == 0:
