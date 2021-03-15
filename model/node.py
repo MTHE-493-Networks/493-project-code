@@ -46,11 +46,9 @@ class polya_node:
         self.total_red = self.init_red
         self.total_black = self.init_black
         
-
-        
-        self.neighbours = []  # list of neighbours
-        self.degree = 0  # number of neighbours
-        
+        self.neighbours = []    # list of neighbours
+        self.degree = 0         # number of neighbours
+        self.alive = True        # is the urn to be drawn from?
         self.id = _id
 
 
@@ -121,3 +119,16 @@ class polya_node:
         self.init_black = 3
         self.total_red = self.init_red
         self.total_black = self.init_black
+    
+    def check_death(self):
+        roll = random.random()
+        if roll < 0.5:
+            self.alive = False
+            self.neighbours = []
+            return True
+        else:
+            return False
+        
+        
+        
+        

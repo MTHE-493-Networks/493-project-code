@@ -76,8 +76,9 @@ class network:
         
     def update_deltas(self):
         for node in self.nodes:
-            node.set_delta_r()
-            node.set_delta_b()
+            if node.alive == True:
+                node.set_delta_r()
+                node.set_delta_b()
             
     def add_draw_data(self, node, Z):
         # FIFO queue
@@ -96,18 +97,21 @@ class network:
     def recompute_urns(self):
         infected = 0
         for node in self.nodes:
-            total_red = node.init_red
-            total_black = node.init_black
-            for n in range(memory):
-                if self.Z[node.id][n] == 0:
-                    total_black += self.draw_data[node.id][n]
-                elif self.Z[node.id][n] == 1:
-                    total_red += self.draw_data[node.id][n]
-            infection_percent = total_red / (total_red+total_black)
-            if infection_percent >= 0.6:
-                infected += 1
-            node.total_red = total_red
-            node.total_black = total_black
+            if node.alive == True:
+                total_red = node.init_red
+                total_black = node.init_black
+                for n in range(memory):
+                    if self.Z[node.id][n] == 0:
+                        total_black += self.draw_data[node.id][n]
+                    elif self.Z[node.id][n] == 1:
+                        total_red += self.draw_data[node.id][n]
+                infection_percent = total_red / (total_red+total_black)
+                if infection_percent >= 0.6:
+                    death = node.check_death()
+                    if death == False:
+                        infected += 1                        
+                node.total_red = total_red
+                node.total_black = total_black
         self.total_infected.append(infected)
         
         
@@ -118,17 +122,18 @@ class network:
             for node in self.nodes:
                 node.remove_init_balls()
         for node in self.nodes:
-            total_red = node.total_red
-            total_black = node.total_black
-            for i in node.neighbours:
-                total_red += i.total_red
-                total_black += i.total_black
-            red_percent = total_red / (total_red + total_black)
-            roll = random.random()
-            if roll > red_percent:
-                self.add_draw_data(node, 0)
-            else:
-                self.add_draw_data(node, 1)
+            if node.alive == True:
+                total_red = node.total_red
+                total_black = node.total_black
+                for i in node.neighbours:
+                    total_red += i.total_red
+                    total_black += i.total_black
+                red_percent = total_red / (total_red + total_black)
+                roll = random.random()
+                if roll > red_percent:
+                    self.add_draw_data(node, 0)
+                else:
+                    self.add_draw_data(node, 1)
         # end of drawing, time to re-compute graph
         self.recompute_urns()
         self.update_deltas()
