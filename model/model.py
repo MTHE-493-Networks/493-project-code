@@ -23,7 +23,7 @@ class network:
         self.generate_network(version)     # Generate network
         
         self.total_infected = []
-
+        self.total_deaths = []
 
 
     # Function to generate network
@@ -96,8 +96,11 @@ class network:
         
     def recompute_urns(self):
         infected = 0
+        deaths = 0
         for node in self.nodes:
-            if node.alive == True:
+            if node.alive == False:
+                deaths += 1
+            else:
                 total_red = node.init_red
                 total_black = node.init_black
                 for n in range(memory):
@@ -109,10 +112,13 @@ class network:
                 if infection_percent >= 0.6:
                     death = node.check_death()
                     if death == False:
-                        infected += 1                        
+                        infected += 1   
+                    else:
+                        deaths += 1
                 node.total_red = total_red
                 node.total_black = total_black
         self.total_infected.append(infected)
+        self.total_deaths.append(deaths)
         
         
     #draws a ball from every superurn in the network

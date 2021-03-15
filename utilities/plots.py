@@ -70,6 +70,15 @@ def total_infected_plot(G):
     plt.ylabel('Number of Infected')
     plt.savefig("graphs/TotalNumInfected.PNG", format="PNG")
     plt.clf()
+    
+def total_deaths_plot(G):
+    time = range(time_steps)
+
+    plt.plot(time, G.total_deaths)
+    plt.xlabel('Step')
+    plt.ylabel('Total Deaths')
+    plt.savefig("graphs/TotalDeaths.PNG", format="PNG")
+    plt.clf()
 
 def average_total_infected_plot(G):
     time = range(time_steps)

@@ -1,5 +1,5 @@
 from utilities.utilities import time_steps, memory
-from utilities.plots import draw_graph, plot_ave_infection_rate, plot_ave_red_proportion, total_infected_plot, average_total_infected_plot
+from utilities.plots import draw_graph, plot_ave_infection_rate, plot_ave_red_proportion, total_infected_plot, average_total_infected_plot, total_deaths_plot
 from model.model import network
 import matplotlib.pyplot as plt
 
@@ -50,10 +50,11 @@ for k in range(1):
     # naming the y axis
     # plt.ylabel('Average Proportion of Red Balls Over All Urns')
 
-    # plot data
-    # plot_ave_red_proportion(red_prop_data)
-    # plot_ave_infection_rate(super_red_prop_data)
-    total_infected_plot(G_super)
-    average_total_infected_plot(G_super)
+# plot data
+# plot_ave_red_proportion(red_prop_data)
+# plot_ave_infection_rate(super_red_prop_data)
+# total_infected_plot(G_super)
+# average_total_infected_plot(G_super)
+total_deaths_plot(G_super)
 
-    print("Done")
+print("Done")
