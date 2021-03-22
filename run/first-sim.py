@@ -53,8 +53,8 @@ for k in range(1):
 # plot data
 # plot_ave_red_proportion(red_prop_data)
 # plot_ave_infection_rate(super_red_prop_data)
-# total_infected_plot(G_super)
-# average_total_infected_plot(G_super)
+total_infected_plot(G_super)
+average_total_infected_plot(G_super)
 total_deaths_plot(G_super)
 
 print("Done")

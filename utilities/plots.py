@@ -14,10 +14,13 @@ def draw_graph(G, step, l):
 
     color_lookup = {}
     for k in set(G.nodes):
-        if k.alive == True:
-            color_lookup[k] = k.red_proportion()
+        if k.recovered == True:
+            color_lookup[k] = 102
         else:
-            color_lookup[k] = 101
+            if k.alive == True:
+                color_lookup[k] = k.red_proportion()
+            else:
+                color_lookup[k] = 101
     # color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
 
     fig = figure(figsize=(8, 6))
@@ -30,15 +33,17 @@ def draw_graph(G, step, l):
     cmap = cm.get_cmap('coolwarm')
 
     weights = color_lookup.values()
-    sizes = [200 if weight <= .6 else 400 for weight in weights]
+    sizes = [200 if weight <= .8 else 400 for weight in weights]
     # node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
     node_colors = []
     for weight in list(weights):
+        if weight == 102:
+            node_colors.append("g")
         if weight == 101:
             node_colors.append("k")
-        if weight < 0.6:
+        if weight < 0.8:
             node_colors.append("b")
-        if weight <=1 and weight >=0.6:
+        if weight <=1 and weight >=0.8:
             node_colors.append("r")
 
 

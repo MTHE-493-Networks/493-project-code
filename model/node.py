@@ -20,19 +20,19 @@ class polya_node:
             self.init_red = 10
             self.init_black = 10
         elif self.risk == "hi":
-            self.init_red = 12
-            self.init_black = 8
+            self.init_red = 11
+            self.init_black = 9
         elif self.risk == "lo":
-            self.init_red = 8
-            self.init_black = 12
+            self.init_red = 9
+            self.init_black = 11
         elif self.risk == "mid-ext":
             self.init_red = 10
             self.init_black = 10
             self.delta_r = 10
             self.delta_b = 10
         elif self.risk == "lo-ext":
-            self.init_red = 8
-            self.init_black = 12
+            self.init_red = 9
+            self.init_black = 11
             self.delta_r = 4
             self.delta_b = 6
         # elif self.profile == "hi traffic worker":
@@ -50,6 +50,8 @@ class polya_node:
         self.degree = 0         # number of neighbours
         self.alive = True        # is the urn to be drawn from?
         self.id = _id
+        self.recovered = False
+        self.daysInfected = 0
 
 
     def set_delta_b(self):
@@ -122,12 +124,17 @@ class polya_node:
     
     def check_death(self):
         roll = random.random()
-        if roll < 0.5:
+        if roll < 0.05:
             self.alive = False
             self.neighbours = []
             return True
         else:
             return False
+
+    def reset_node(self):
+        self.total_black = self.init_black
+        self.total_black = self.init_red
+        self.recovered = True
         
         
         

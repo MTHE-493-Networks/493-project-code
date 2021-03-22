@@ -98,6 +98,8 @@ class network:
         infected = 0
         deaths = 0
         for node in self.nodes:
+            if node.recovered:
+                continue
             if node.alive == False:
                 deaths += 1
             else:
@@ -109,10 +111,13 @@ class network:
                     elif self.Z[node.id][n] == 1:
                         total_red += self.draw_data[node.id][n]
                 infection_percent = total_red / (total_red+total_black)
-                if infection_percent >= 0.6:
+                if infection_percent >= 0.8:
                     death = node.check_death()
                     if death == False:
-                        infected += 1   
+                        infected += 1
+                        node.daysInfected +=1
+                        if node.daysInfected > 10:
+                            node.reset_node()
                     else:
                         deaths += 1
                 node.total_red = total_red
