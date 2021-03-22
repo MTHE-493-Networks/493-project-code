@@ -12,7 +12,13 @@ from model.model import network
 def draw_graph(G, step, l):
     G = G.network_plot
 
-    color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
+    color_lookup = {}
+    for k in set(G.nodes):
+        if k.alive == True:
+            color_lookup[k] = k.red_proportion()
+        else:
+            color_lookup[k] = 101
+    # color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
 
     fig = figure(figsize=(8, 6))
     rcParams.update({'font.size': 16, 'mathtext.default': 'regular'})
@@ -25,9 +31,20 @@ def draw_graph(G, step, l):
 
     weights = color_lookup.values()
     sizes = [200 if weight <= .6 else 400 for weight in weights]
-    node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
-    if all(node_colors):
-        node_colors = 'r'
+    # node_colors = [0 if weight <= .6 else 1 for weight in list(weights)]
+    node_colors = []
+    for weight in list(weights):
+        if weight == 101:
+            node_colors.append("k")
+        if weight < 0.6:
+            node_colors.append("b")
+        if weight <=1 and weight >=0.6:
+            node_colors.append("r")
+
+
+
+    # if all(node_colors):
+        # node_colors = 'r'
     # min_val, max_val = min(weights), max(weights)
 
     draw_networkx_edges(graph, plot_layout,alpha=0.5, width=1)

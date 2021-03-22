@@ -21,8 +21,8 @@ for k in range(1):
     for j in range(time_steps):
         print("Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
         
-        # if j % 5 == 0:
-        #     draw_graph(G_super, j, k)
+        if j % 5 == 0:
+            draw_graph(G_super, j, k)
         
         G_super.supernode_run_step()
         for node in G_super.nodes:
