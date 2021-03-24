@@ -15,26 +15,26 @@ class polya_node:
         # wait until network has been created to set deltas
         self.delta_r = 0
         self.delta_b = 0
-        
+	# initial conditions 8
         if self.risk == "mid":
-            self.init_red = 10
-            self.init_black = 10
+            self.init_red = 1
+            self.init_black = 5
         elif self.risk == "hi":
-            self.init_red = 11
-            self.init_black = 9
+            self.init_red = 1
+            self.init_black = 3
         elif self.risk == "lo":
-            self.init_red = 9
-            self.init_black = 11
+            self.init_red = 1
+            self.init_black = 6
         elif self.risk == "mid-ext":
-            self.init_red = 10
-            self.init_black = 10
-            self.delta_r = 10
-            self.delta_b = 10
+            self.init_red = 1
+            self.init_black = 5
+            self.delta_r = 2
+            self.delta_b = 3
         elif self.risk == "lo-ext":
-            self.init_red = 9
-            self.init_black = 11
-            self.delta_r = 4
-            self.delta_b = 6
+            self.init_red = 1
+            self.init_black = 8
+            self.delta_r = 1
+            self.delta_b = 3
         # elif self.profile == "hi traffic worker":
         #     self.init_red = 2
         #     self.init_black = 2
@@ -82,30 +82,38 @@ class polya_node:
             self.delta_r = dr
 
     def remove_init_balls(self):
-        self.total_black -= self.init_black
-        self.total_red -= self.init_red
+        if self.alive == True:
+            self.total_black -= self.init_black
+            self.total_red -= self.init_red
         
     def red_proportion(self):
         return self.total_red / (self.total_red + self.total_black)
     
     def super_red_proportion(self):
-        num_super_red = 0  # number of red balls in superurn
-        num_super_total = 0  # number of balls in superurn
-        for i in self.neighbours:
-            num_super_red += i.total_red
-            num_super_total += i.total_red + i.total_black
-        return num_super_red / num_super_total
+        if self.alive == False:
+            return 0
+        num_super_red = self.total_red  # number of red balls in superurn
+        num_super_total = self.total_black  # number of balls in superurn
+        for neighbour in self.neighbours:
+            num_super_red += neighbour.total_red
+            num_super_total += neighbour.total_red + neighbour.total_black
+        try:
+            return num_super_red / num_super_total
+        except:
+            print("Urn "+ str(self.id) + " failed in super_red_prop")
+            
+        
 
-    def draw_ball(node):
-        red_percent = node.red_proportion()
-        roll = random.random()
-        if roll > red_percent:
-            node.total_black += 1
-            drawn_ball = "black"
-        else:
-            node.total_red += 1
-            drawn_ball = "red"
-        return drawn_ball
+    # def draw_ball(node):
+    #     red_percent = node.red_proportion()
+    #     roll = random.random()
+    #     if roll > red_percent:
+    #         node.total_black += 1
+    #         drawn_ball = "black"
+    #     else:
+    #         node.total_red += 1
+    #         drawn_ball = "red"
+    #     return drawn_ball
 
     # Add neighbour to node
     def add_neighbour(self, neighbour):
@@ -117,8 +125,8 @@ class polya_node:
         self.degree = len(self.neighbours)
     
     def set_patient_zero(self):
-        self.init_red = 30
-        self.init_black = 3
+        self.init_red = 15
+        self.init_black = 1
         self.total_red = self.init_red
         self.total_black = self.init_black
     
@@ -127,6 +135,10 @@ class polya_node:
         if roll < 0.05:
             self.alive = False
             self.neighbours = []
+            self.total_black = 0
+            self.total_red = 0
+            self.delta_r = 0
+            self.delta_b = 0
             return True
         else:
             return False

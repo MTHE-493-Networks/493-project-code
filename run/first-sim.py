@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 for k in range(1):
     red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each urn over time
     super_red_prop_data = [[] for _ in range(time_steps + 1)] # red proportion for each superurn over time
-    G_super = network("b")
-
+    G_super = network("c")
 
     for i in G_super.nodes:
         # record initial infection rate data
@@ -15,7 +14,7 @@ for k in range(1):
         super_red_prop_data[0].append(i.super_red_proportion())
         
         #print r/b balls in each urn initially
-        #print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+        # print("\n Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
 
     
     for j in range(time_steps):
@@ -23,6 +22,12 @@ for k in range(1):
         
         if j % 5 == 0:
             draw_graph(G_super, j, k)
+        # print("Time "+str(j)+", Urn " + str(G_super.nodes[0].id) + ". db: " + str(G_super.nodes[0].delta_b) + ", dr: " + str(G_super.nodes[0].delta_r) + "\n Red/black balls are " + str(G_super.nodes[0].total_red) +"/"+ str(G_super.nodes[0].total_black))
+       
+        # print("\nTime "+str(j))
+        # for i in G_super.nodes:
+        #     print("Red/black balls in " + str(i.id) + " urn: " + str(i.total_red) +"/"+ str(i.total_black))
+
         
         G_super.supernode_run_step()
         for node in G_super.nodes:

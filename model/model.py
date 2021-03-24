@@ -22,8 +22,13 @@ class network:
         self.nodes = []     # empty array of nodes - initialized in generate_network()
         self.generate_network(version)     # Generate network
         
-        self.total_infected = []
-        self.total_deaths = []
+        initinfected = 0
+        for node in self.nodes:
+            infection_percent = node.total_red / (node.total_red+node.total_black)
+            if infection_percent >= 0.8:
+                initinfected += 1
+        self.total_infected = [initinfected]
+        self.total_deaths = [0]
 
 
     # Function to generate network
@@ -118,10 +123,10 @@ class network:
                         node.daysInfected +=1
                         if node.daysInfected > 10:
                             node.reset_node()
+                        node.total_red = total_red
+                        node.total_black = total_black
                     else:
                         deaths += 1
-                node.total_red = total_red
-                node.total_black = total_black
         self.total_infected.append(infected)
         self.total_deaths.append(deaths)
         
@@ -129,9 +134,9 @@ class network:
     #draws a ball from every superurn in the network
     def supernode_run_step(self):
         self.steps += 1
-        if self.steps == 10:
-            for node in self.nodes:
-                node.remove_init_balls()
+        # if self.steps == 10:
+        #     for node in self.nodes:
+        #         node.remove_init_balls()
         for node in self.nodes:
             if node.alive == True:
                 total_red = node.total_red

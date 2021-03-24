@@ -85,7 +85,7 @@ def plot_ave_infection_rate(superred_prop_data):
     plt.clf()
 
 def total_infected_plot(G):
-    time = range(time_steps)
+    time = range(time_steps+1)
 
     plt.plot(time, G.total_infected)
     plt.xlabel('Step')
@@ -94,7 +94,7 @@ def total_infected_plot(G):
     plt.clf()
     
 def total_deaths_plot(G):
-    time = range(time_steps)
+    time = range(time_steps+1)
 
     plt.plot(time, G.total_deaths)
     plt.xlabel('Step')
@@ -103,7 +103,7 @@ def total_deaths_plot(G):
     plt.clf()
 
 def average_total_infected_plot(G):
-    time = range(time_steps)
+    time = range(time_steps+1)
 
     yhat = savgol_filter(G.total_infected, 51, 3) # window size 51, polynomial order 3
 
