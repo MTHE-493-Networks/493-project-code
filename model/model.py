@@ -6,6 +6,7 @@ from model.node import polya_node
 from typing import List
 import networkx as nx
 
+
 class network:
     nodes: List[polya_node]
 
@@ -123,10 +124,12 @@ class network:
                         node.daysInfected +=1
                         if node.daysInfected > 10:
                             node.reset_node()
-                        node.total_red = total_red
-                        node.total_black = total_black
                     else:
                         deaths += 1
+                if node.recovered:
+                    continue
+                node.total_red = total_red
+                node.total_black = total_black
         self.total_infected.append(infected)
         self.total_deaths.append(deaths)
         
@@ -150,6 +153,14 @@ class network:
                     self.add_draw_data(node, 0)
                 else:
                     self.add_draw_data(node, 1)
+
+        # # find optimal node to inject black balls
+        # if self.steps % 5 == 0:
+        #     node = self.find_optimal_node(self.network_plot)
+        #     print(node.id)
+        #     print(str(node.total_black) + "  " + str(node.total_red))
+
+        #     node.inject_black_balls(10000)
         # end of drawing, time to re-compute graph
         self.recompute_urns()
         self.update_deltas()
@@ -456,3 +467,24 @@ class network:
             self.network_plot.add_edge(self.nodes[i],self.nodes[104])
             self.network_plot.add_edge(self.nodes[i],self.nodes[105])
     #end construct_network_c
+
+    def find_optimal_node(self, G):
+        optimal_node = self.nodes[0] #initialize optimal node
+        opt_red_ball_prop = optimal_node.red_proportion()
+        opt_num_nei = len(optimal_node.neighbours)
+        opt_inf_rating = opt_red_ball_prop * opt_num_nei
+        for node in self.nodes:
+            if node == self.nodes[0]: # skip the first node
+                continue
+            if node.daysInfected > 0:
+                continue
+            red_ball_prop = node.red_proportion()
+            num_neighbours = len(node.neighbours)
+            infection_rating = red_ball_prop*num_neighbours
+            if infection_rating > opt_inf_rating:
+                opt_inf_rating = infection_rating
+                optimal_node = node
+        return optimal_node
+
+
+

@@ -17,22 +17,22 @@ class polya_node:
         self.delta_b = 0
 	# initial conditions 8
         if self.risk == "mid":
-            self.init_red = 1
-            self.init_black = 5
+            self.init_red = 10
+            self.init_black = 10
         elif self.risk == "hi":
-            self.init_red = 1
-            self.init_black = 3
+            self.init_red = 11
+            self.init_black = 9
         elif self.risk == "lo":
-            self.init_red = 1
-            self.init_black = 6
+            self.init_red = 9
+            self.init_black = 11
         elif self.risk == "mid-ext":
-            self.init_red = 1
-            self.init_black = 5
+            self.init_red = 10
+            self.init_black = 10
             self.delta_r = 2
             self.delta_b = 3
         elif self.risk == "lo-ext":
-            self.init_red = 1
-            self.init_black = 8
+            self.init_red = 9
+            self.init_black = 11
             self.delta_r = 1
             self.delta_b = 3
         # elif self.profile == "hi traffic worker":
@@ -87,6 +87,8 @@ class polya_node:
             self.total_red -= self.init_red
         
     def red_proportion(self):
+        if (self.total_red + self.total_black) == 0:
+            return 0
         return self.total_red / (self.total_red + self.total_black)
     
     def super_red_proportion(self):
@@ -148,6 +150,9 @@ class polya_node:
         self.total_black = self.init_red
         self.recovered = True
         
-        
+    def inject_black_balls(self, numBalls):
+        self.total_black = self.total_black + numBalls
+
+    
         
         
