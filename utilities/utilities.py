@@ -11,7 +11,7 @@ init_split = (init_red_balls + init_black_balls)/2
 spread_rate = 10
 time_steps = 90
 # number_of_nodes = 100
-memory = 5
+memory = 3
 
 
 # Generate new network

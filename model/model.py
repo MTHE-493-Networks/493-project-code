@@ -5,6 +5,8 @@ from utilities.utilities import generate_barabassi_graph, init_black_balls, init
 from model.node import polya_node
 from typing import List
 import networkx as nx
+from networkx import degree_centrality
+from math import floor
 
 
 class network:
@@ -26,7 +28,7 @@ class network:
         initinfected = 0
         for node in self.nodes:
             infection_percent = node.total_red / (node.total_red+node.total_black)
-            if infection_percent >= 0.8:
+            if infection_percent >= 0.85:
                 initinfected += 1
         self.total_infected = [initinfected]
         self.total_deaths = [0]
@@ -117,15 +119,21 @@ class network:
                     elif self.Z[node.id][n] == 1:
                         total_red += self.draw_data[node.id][n]
                 infection_percent = total_red / (total_red+total_black)
-                if infection_percent >= 0.8:
-                    death = node.check_death()
+                if infection_percent >= 0.85:
+                    node.recovered = False
+                    death = node.check_death(infection_percent)
                     if death == False:
+                        node.infected = True
                         infected += 1
                         node.daysInfected +=1
-                        if node.daysInfected > 10:
-                            node.reset_node()
+                        # if node.daysInfected > 10:
+                            # node.reset_node()
                     else:
                         deaths += 1
+                else:
+                    if node.daysInfected > 8 and infection_percent < .50:
+                        node.recovered = True
+                        node.infected = False
                 if node.recovered:
                     continue
                 node.total_red = total_red
@@ -154,13 +162,17 @@ class network:
                 else:
                     self.add_draw_data(node, 1)
 
-        # # find optimal node to inject black balls
+        # find optimal node to inject black balls
         # if self.steps % 5 == 0:
-        #     node = self.find_optimal_node(self.network_plot)
-        #     print(node.id)
-        #     print(str(node.total_black) + "  " + str(node.total_red))
-
-        #     node.inject_black_balls(10000)
+        optimal_nodes = self.find_optimal_node(self.network_plot)
+        for node in optimal_nodes:
+            total_balls = node.total_red + node.total_black
+            node.inject_black_balls(floor(0.7*total_balls))
+        
+        try: 
+            print("after mit: " + str(optimal_nodes[0].total_black))
+        except:
+            pass
         # end of drawing, time to re-compute graph
         self.recompute_urns()
         self.update_deltas()
@@ -469,22 +481,18 @@ class network:
     #end construct_network_c
 
     def find_optimal_node(self, G):
-        optimal_node = self.nodes[0] #initialize optimal node
-        opt_red_ball_prop = optimal_node.red_proportion()
-        opt_num_nei = len(optimal_node.neighbours)
-        opt_inf_rating = opt_red_ball_prop * opt_num_nei
-        for node in self.nodes:
-            if node == self.nodes[0]: # skip the first node
-                continue
-            if node.daysInfected > 0:
-                continue
-            red_ball_prop = node.red_proportion()
-            num_neighbours = len(node.neighbours)
-            infection_rating = red_ball_prop*num_neighbours
-            if infection_rating > opt_inf_rating:
-                opt_inf_rating = infection_rating
-                optimal_node = node
-        return optimal_node
+        node_centrality = nx.degree_centrality(G)
+        top5_counter = 0
+        optimal_nodes = []
+        for node in node_centrality:
+            if node.red_proportion() > 0.85:
+                optimal_nodes.append(node)
+                top5_counter += 1
+            if top5_counter >= 5:
+                print("optimal node: " + str(optimal_nodes[0].id))
+                print(optimal_nodes[0].total_black)
+                return optimal_nodes
+        return optimal_nodes
 
 
 

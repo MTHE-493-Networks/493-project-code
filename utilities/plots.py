@@ -18,7 +18,10 @@ def draw_graph(G, step, l):
             color_lookup[k] = 102
         else:
             if k.alive == True:
-                color_lookup[k] = k.red_proportion()
+                if k.infected == True:
+                    color_lookup[k] = 103
+                else:
+                    color_lookup[k] = 104
             else:
                 color_lookup[k] = 101
     # color_lookup = {k: k.red_proportion() for k in set(G.nodes())}
@@ -41,9 +44,9 @@ def draw_graph(G, step, l):
             node_colors.append("g")
         if weight == 101:
             node_colors.append("k")
-        if weight < 0.8:
+        if weight == 104:
             node_colors.append("b")
-        if weight <=1 and weight >=0.8:
+        if weight == 103:
             node_colors.append("r")
 
 
@@ -105,7 +108,7 @@ def total_deaths_plot(G):
 def average_total_infected_plot(G):
     time = range(time_steps+1)
 
-    yhat = savgol_filter(G.total_infected, 51, 3) # window size 51, polynomial order 3
+    yhat = savgol_filter(G.total_infected, 25, 3) # window size 51, polynomial order 3
 
     plt.plot(time, G.total_infected)
     plt.plot(time,yhat, color='red')

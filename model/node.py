@@ -20,21 +20,21 @@ class polya_node:
             self.init_red = 10
             self.init_black = 10
         elif self.risk == "hi":
-            self.init_red = 11
-            self.init_black = 9
+            self.init_red = 10
+            self.init_black = 10
         elif self.risk == "lo":
-            self.init_red = 9
-            self.init_black = 11
+            self.init_red = 10
+            self.init_black = 10
         elif self.risk == "mid-ext":
             self.init_red = 10
             self.init_black = 10
-            self.delta_r = 2
-            self.delta_b = 3
+            self.delta_r = 5
+            self.delta_b = 5
         elif self.risk == "lo-ext":
-            self.init_red = 9
-            self.init_black = 11
-            self.delta_r = 1
-            self.delta_b = 3
+            self.init_red = 10
+            self.init_black = 10
+            self.delta_r = 5
+            self.delta_b = 5
         # elif self.profile == "hi traffic worker":
         #     self.init_red = 2
         #     self.init_black = 2
@@ -52,6 +52,9 @@ class polya_node:
         self.id = _id
         self.recovered = False
         self.daysInfected = 0
+        self.patient_zero = False
+        self.daysAboveDeath = 0
+        self.infected = False
 
 
     def set_delta_b(self):
@@ -60,7 +63,7 @@ class polya_node:
             for i in self.neighbours:
                 total_black += i.total_black
             try:
-                db = floor(total_black/ len(self.neighbours))
+                db = floor(0.5*(total_black/ len(self.neighbours)))
             except:
                 print("Urn with ID #" + str(self.id) + " has no neighbours")
             if db == 0:
@@ -74,7 +77,7 @@ class polya_node:
                 total_red += i.total_red
     
             try:
-                dr = floor(1.3*(total_red / (len(self.neighbours))))
+                dr = floor(0.6*(total_red / (len(self.neighbours))))
             except:
                 print("Urn with ID #" + str(self.id) + " has no neighbours")
             if dr == 0:
@@ -131,23 +134,27 @@ class polya_node:
         self.init_black = 1
         self.total_red = self.init_red
         self.total_black = self.init_black
+        self.patient_zero = True
     
-    def check_death(self):
-        roll = random.random()
-        if roll < 0.05:
-            self.alive = False
-            self.neighbours = []
-            self.total_black = 0
-            self.total_red = 0
-            self.delta_r = 0
-            self.delta_b = 0
-            return True
+    def check_death(self, inf_perc):
+        if inf_perc > 0.895:
+            self.daysAboveDeath += 1
+            if self.daysAboveDeath >= 1:
+                self.alive = False
+                self.neighbours = []
+                self.total_black = 0
+                self.total_red = 0
+                self.delta_r = 0
+                self.delta_b = 0
+                return True
+            else:
+                return False
         else:
             return False
 
     def reset_node(self):
         self.total_black = self.init_black
-        self.total_black = self.init_red
+        self.total_red = self.init_red
         self.recovered = True
         
     def inject_black_balls(self, numBalls):
