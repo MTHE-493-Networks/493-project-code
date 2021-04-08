@@ -5,7 +5,7 @@ from utilities.utilities import generate_barabassi_graph, init_black_balls, init
 from model.node import polya_node
 from typing import List
 import networkx as nx
-from networkx import degree_centrality
+from networkx import degree_centrality, closeness_centrality
 from math import floor
 
 
@@ -119,7 +119,7 @@ class network:
                     elif self.Z[node.id][n] == 1:
                         total_red += self.draw_data[node.id][n]
                 infection_percent = total_red / (total_red+total_black)
-                if infection_percent >= 0.85:
+                if infection_percent >= 0.75:
                     node.recovered = False
                     death = node.check_death(infection_percent)
                     if death == False:
@@ -167,7 +167,7 @@ class network:
         optimal_nodes = self.find_optimal_node(self.network_plot)
         for node in optimal_nodes:
             total_balls = node.total_red + node.total_black
-            node.inject_black_balls(floor(0.7*total_balls))
+            node.inject_black_balls(floor(total_balls))
         
         try: 
             print("after mit: " + str(optimal_nodes[0].total_black))
@@ -485,7 +485,7 @@ class network:
         top5_counter = 0
         optimal_nodes = []
         for node in node_centrality:
-            if node.red_proportion() > 0.85:
+            if node.red_proportion() > 0.85 and node.alive==True:
                 optimal_nodes.append(node)
                 top5_counter += 1
             if top5_counter >= 5:

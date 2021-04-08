@@ -137,7 +137,7 @@ class polya_node:
         self.patient_zero = True
     
     def check_death(self, inf_perc):
-        if inf_perc > 0.895:
+        if inf_perc > 0.90:
             self.daysAboveDeath += 1
             if self.daysAboveDeath >= 1:
                 self.alive = False
